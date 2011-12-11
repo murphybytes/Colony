@@ -1,0 +1,3 @@
+Colony makes it easy to build distributed systems comprised of processes that send each other messages.  
+Processes are given names according to their purpose.  Typically you would have multiple copies of 
+each type of process for redundancy and/or load distribution.
