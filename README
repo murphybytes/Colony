@@ -1,3 +1,29 @@
 Colony makes it easy to build distributed systems comprised of processes that send each other messages.  
 Processes are given names according to their purpose.  Typically you would have multiple copies of 
 each type of process for redundancy and/or load distribution.
+
+
+How to set up a node
+-----------------------
+
+Declare a class and include Colony::Node
+
+1) Supply name for the node you created
+
+class MyNode
+      include Colony::Node
+      role 'my_node'	               # name of this node, must be unique
+      on_message_call :on_message      # handler for messages from other nodes
+      run_program_with :runner         # main program loop
+
+      def on_message message
+      	  # do something
+      end
+
+      def runner
+         # main program loop
+      end
+      
+
+
+
