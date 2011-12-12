@@ -2,6 +2,12 @@ Colony makes it easy to build distributed systems comprised of processes that se
 Processes are given names according to their purpose.  Typically you would have multiple copies of 
 each type of process for redundancy and/or load distribution.
 
+Nodes announce their presence to other nodes by sending heartbeats with the node name, node host, and node process id out on 
+a udp multicast channel.  Nodes record information about other nodes as they recieve heartbeats from them.  A node and send 
+a message to another node (over tcp) if it has recieved a heartbeat message from that node.  The node that recieves the message
+is the one the sending node has most recently recieved a heartbeat message from. (Nodes are stored in a priority queue)
+When a node is sent a message it is removed from the front of the queue.  If a heart beat hasn't been recieved from
+a node for 10 seconds it is removed from the priority queue and assumed to be dead.  
 
 How to set up a node
 -----------------------
