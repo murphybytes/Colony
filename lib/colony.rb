@@ -15,7 +15,9 @@ module Colony
         @@role
       end
 
-      
+      def use_logger log
+        @@log = log
+      end
 
       
       # supply name of method to handle messages from other 
@@ -39,6 +41,14 @@ module Colony
         @@handler_symbol
       end
 
+      def self.log_
+        unless defined? @@log
+          require 'logger'
+          @@log = Logger.new(STDOUT)
+        end
+        @@log
+      end
+
       def self.runner_
         @@runner_symbol 
       end
@@ -56,10 +66,10 @@ module Colony
     end
 
     def run
-
-      start_heartbeat_listener
-      start_message_listener
-
+      log.debug "Calling run"
+      listen_for_neighbors
+      advertise_presence
+      run_program
     end
     
     def role
@@ -67,8 +77,18 @@ module Colony
       self.name
     end
 
+    def log
+      ClassMethods.log_
+    end
 
-    def start_heartbeat_listener
+    
+
+    def listen_for_neighbors
+      log.debug "Listening for neighbors"
+    end
+
+    def advertise_presence
+      log.debug "Advertising presense"
     end
 
     def start_message_listener
@@ -82,11 +102,12 @@ module Colony
       
     end
 
-    def runner
-      if ClassMethods.runner_
-        runner_method = method( ClassMethods.runner_ )
-        runner_method.call
-      end
+    def run_program
+      
+      # if ClassMethods.runner_
+      #   runner_method = method( ClassMethods.runner_ )
+      #   runner_method.call
+      # end
     end
 
     def self.included( base )
