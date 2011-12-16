@@ -4,6 +4,7 @@ require 'zmq'
 module Colony
   module Node
 
+    
 
     module ClassMethods
       def role name
@@ -14,16 +15,8 @@ module Colony
         @@role
       end
 
-      def talks_to other_role
-        @@talks_to[other_role] = nil
-      end
       
-      #
-      # names of other roles to listen for messages from
-      #
-      def listeners
-        @@talks_to
-      end
+
       
       # supply name of method to handle messages from other 
       # nodes, takes one argument (the message)
@@ -56,7 +49,6 @@ module Colony
 
       def self.extended( base )
         @@handler_symbol = nil unless defined? @@handler_symbol
-        @@talks_to = {} unless defined? @@talks_to
         @@role = nil unless defined? @@role
         @@sender_symbol = nil unless defined? @@sender_symbol
       end
@@ -64,26 +56,24 @@ module Colony
     end
 
     def run
-      message_handler = method( ClassMethods.handler_ )
-      raise "Wrong number of arguments for #{ClassMethods.handler_}. Expecting 1" unless message_handler.arity == 1
 
-      heartbeat_generator
-      heartbeat_listener
-      message_listener
-      message_sender
+      start_heartbeat_listener
+      start_message_listener
 
-      message_handler.call 'zip'
     end
     
-    
-    def heartbeat_generator
+    def role
+      return ClassMethods.role_ if ClassMethods.role_
+      self.name
     end
 
-    def heartbeat_listener
+
+    def start_heartbeat_listener
     end
 
-    def message_listener
+    def start_message_listener
       if ClassMethods.handler_ 
+        raise "Wrong number of arguments for #{ClassMethods.handler_}. Expecting 1" unless message_handler.arity == 1
         message_handler = method( ClassMethods.handler_ )
         #todo handle tcp messages 
         message = ''
@@ -101,9 +91,13 @@ module Colony
 
     def self.included( base )
       base.send :extend, ClassMethods
+      
     end
-
+    
+  
     
   end
 
 end
+
+
