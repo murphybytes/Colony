@@ -1,10 +1,8 @@
 require 'zmq'
-
+require 'logger'
 
 module Colony
   module Node
-
-    
 
     module ClassMethods
       def role name
@@ -18,7 +16,6 @@ module Colony
       def use_logger log
         @@log = log
       end
-
       
       # supply name of method to handle messages from other 
       # nodes, takes one argument (the message)
@@ -31,7 +28,6 @@ module Colony
       def run_program_with runner
         @@runner_symbol = runner
       end
-
 
       def handler
         @@handler_symbol
@@ -88,7 +84,7 @@ module Colony
     end
 
     def advertise_presence
-      log.debug "Advertising presense"
+      log.debug "Advertising presence"
     end
 
     def start_message_listener
@@ -103,11 +99,10 @@ module Colony
     end
 
     def run_program
-      
-      # if ClassMethods.runner_
-      #   runner_method = method( ClassMethods.runner_ )
-      #   runner_method.call
-      # end
+      if ClassMethods.runner_
+        runner_method = method( ClassMethods.runner_ )
+        runner_method.call
+      end
     end
 
     def self.included( base )
