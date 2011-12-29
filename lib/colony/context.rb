@@ -40,4 +40,4 @@ module Colony
 
 end
 
-trap('INT') { puts 'shutting down'; Colony::Context.instance.terminate_zmq; exit }
+

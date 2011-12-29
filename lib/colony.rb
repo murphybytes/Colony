@@ -76,6 +76,8 @@ module Colony
         listen_for_neighbors
         advertise_presence
         run_program
+      rescue SystemExit => s
+        log.info "Progam exiting"
       rescue Exception => e
         log.error e.message
       end
@@ -132,4 +134,7 @@ module Colony
 
 end
 
-
+trap('INT') do
+ Colony::Context.instance.terminate_zmq
+ exit 
+end
