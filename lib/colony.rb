@@ -1,5 +1,5 @@
-require 'zmq'
 require 'logger'
+require 'colony/context'
 
 module Colony
   module Node
@@ -8,6 +8,10 @@ module Colony
       def role name
         @@role = name 
       end
+
+      # listen_to role ?? maybe dont need this
+      # talk_to role
+      # broadcast_to role 
 
       def role_name
         @@role
@@ -60,13 +64,25 @@ module Colony
       end
 
     end
-
-    def run
+    
+    
+    def run opts = {}
       log.debug "Calling run"
-      listen_for_neighbors
-      advertise_presence
-      run_program
+      io_thread_count =  opts.key?( :io_thread_count ) ? opts[:io_thread_count] : 1
+      Context.instance.set_options opts
+      Context.instance.initialize_zmq 
+
+      begin
+        listen_for_neighbors
+        advertise_presence
+        run_program
+      rescue Exception => e
+        log.error e.message
+      end
+
     end
+
+
     
     def role
       return ClassMethods.role_ if ClassMethods.role_
@@ -110,7 +126,7 @@ module Colony
       
     end
     
-  
+    
     
   end
 

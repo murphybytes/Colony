@@ -21,6 +21,11 @@ class NodeTester
 
   def runner
     log.debug "run loop started"
+    while true
+      p '.'
+      sleep 2
+    end
+
   end
 end
 
