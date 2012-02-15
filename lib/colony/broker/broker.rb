@@ -11,14 +11,14 @@ end
 
 logger = Logger.new( STDOUT )
 logger.level = Colony::Utils.get_log_level( opts[:log_level] )
-logger.info "started"
+logger.info "Broker started. Outbound port is #{opts[:dealer_port]}. Inbound port is #{opts[:router_port]}"
 
 context = ZMQ::Context.new
 frontend = context.socket(ZMQ::ROUTER)
 backend = context.socket(ZMQ::DEALER)
 
-frontend.bind('tcp://*:5559')
-backend.bind('tcp://*:5560')
+frontend.bind("tcp://*:#{ opts[:router_port] }")
+backend.bind("tcp://*:#{ opts[:dealer_port] }")
 
 poller = ZMQ::Poller.new
 poller.register(frontend, ZMQ::POLLIN)
