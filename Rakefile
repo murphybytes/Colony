@@ -1,6 +1,6 @@
 require 'bundler'
 
-Bundler.require(:default,:development)
+#Bundler.require(:default,:development)
 
 require 'rspec/core/rake_task'
 
