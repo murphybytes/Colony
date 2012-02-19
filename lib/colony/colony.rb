@@ -41,6 +41,10 @@ module Colony
         @@handler_symbol = handler
       end
       
+
+      def on message,  call_handler 
+      end
+
       # supply name of main program method
       def run_program_with runner
         @@runner_symbol = runner

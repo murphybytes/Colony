@@ -1,0 +1,8 @@
+development:
+  message-thread-count: 2
+
+test:
+  message-thread-count: 2
+
+production:
+  message-thread-count: 2
