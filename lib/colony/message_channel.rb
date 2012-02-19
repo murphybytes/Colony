@@ -1,4 +1,4 @@
-require 'colony/context'
+require 'colony'
 
 module Colony
 

@@ -1,8 +1,17 @@
 development:
   message-thread-count: 2
-
+  broker: tcp://localhost:9090
+  dealer: tcp://localhost:9091
+  
 test:
   message-thread-count: 2
+  broker: tcp://localhost:9090
+  dealer: tcp://localhost:9091
 
 production:
   message-thread-count: 2
+  broker: tcp://localhost:9090
+  dealer: tcp://localhost:9091
+
+
+

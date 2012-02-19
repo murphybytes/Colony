@@ -1,3 +1,7 @@
+require 'ffi-rzmq'
+require 'colony/configuration'
 require 'colony/utils'
 require 'colony/colony'
+require 'colony/zmq_context'
+require 'colony/zmq_req'
 require 'colony/message_channel'

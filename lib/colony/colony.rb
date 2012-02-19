@@ -1,5 +1,5 @@
 require 'logger'
-require 'colony/context'
+
 
 module Colony
   module Node

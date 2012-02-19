@@ -5,7 +5,17 @@ require 'bundler'
 require 'rspec/core/rake_task'
 
 RSpec::Core::RakeTask.new(:spec) do | spec |
+				
   spec.pattern = 'spec/**/*_spec.rb'
 end
 
-task :default => [:spec]
+
+task :test_setup do 
+  unless ENV['COLONY_ENV']
+    ENV['COLONY_ENV'] = 'test'
+  end
+end
+
+task :test => [:test_setup, :spec]
+
+task :default => [:test] 

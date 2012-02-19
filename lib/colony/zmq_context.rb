@@ -1,5 +1,3 @@
-require 'ffi-rzmq'
-
 require 'colony'
 
 module Colony
@@ -10,7 +8,7 @@ module Colony
       def self.included( base ) 
         unless defined? @@context
           configuration = Configuration.new
-          @@context = ::ZMQ::Context.new( configuration.message_threads )
+          @@context = ::ZMQ::Context.new( configuration.message_thread_count )
         end
       end
 
